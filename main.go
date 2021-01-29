@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"math"
+	"time"
 )
 
 func main() {
@@ -23,23 +24,12 @@ func main() {
 	prettyPrint(S)
 	fmt.Println("hi")
 
-	// U, n := assigneValeur(S, 1, 8, 2)
-	// prettyPrint(U)
-	// fmt.Println(n)
-	// fmt.Println(isAvailable(S, 1, 8, 2))
-	// fmt.Println(isAvailable(S, 1, 8, 3))
-	// fmt.Println(isAvailable(S, 1, 8, 4))
-	// fmt.Println(isAvailable(S, 1, 8, 5))
-	// fmt.Println(isAvailable(S, 1, 8, 6))
-	// fmt.Println(isAvailable(S, 1, 8, 7))
-	// fmt.Println(isAvailable(S, 1, 8, 8))
-	// fmt.Println(isAvailable(S, 1, 8, 9))
-
+	start := time.Now()
 	T := solve(S)
-	prettyPrint(T)
+	fmt.Println(time.Since(start))
 
-	// println(nbPossible(S, 8, 7))
-	// prettyPrint(tableauPossibilities(S))
+	// Display
+	prettyPrint(T)
 
 }
 
@@ -157,7 +147,6 @@ func floor3(n int) int {
 
 func solve(S [9][9]int) [9][9]int {
 	tabOrdre := tableauOrdre(S)
-	fmt.Println("to explore", tabOrdre)
 	nToChange := len(tabOrdre)
 	tabMini := S
 	rank := 0
@@ -180,9 +169,9 @@ func solve(S [9][9]int) [9][9]int {
 
 		if replacedValue != 0 {
 			rank++
-			fmt.Println("count", c, "-", i, j, ": go forward", "->", replacedValue)
+			// fmt.Println("count", c, "-", i, j, ": go forward", "->", replacedValue)
 		} else {
-			fmt.Println("count", c, "-", i, j, ": going back")
+			// fmt.Println("count", c, "-", i, j, ": going back")
 			rank--
 		}
 
