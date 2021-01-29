@@ -2,9 +2,12 @@ package main
 
 import (
 	"fmt"
+
+	"github.com/pkg/profile"
 )
 
 func main() {
+	defer profile.Start().Stop()
 
 	S := FileHandler("data/sudoku_special_against_computers")
 
