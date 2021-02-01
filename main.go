@@ -1,15 +1,31 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 
 	"github.com/pkg/profile"
 )
 
 func main() {
-	defer profile.Start().Stop()
+	// Arguments
+	var sudokuFile = flag.String(
+		"input",
+		"data/sudoku.txt",
+		"Select a sudoku file from your path.",
+	)
+	var profiling = flag.Bool(
+		"cpu",
+		false,
+		"Profiling CPU usage",
+	)
+	flag.Parse()
 
-	S := FileHandler("data/sudoku_special_against_computers")
+	if *profiling {
+		defer profile.Start().Stop()
+	}
+
+	S := FileHandler(*sudokuFile)
 
 	prettyPrint(S)
 
@@ -20,7 +36,7 @@ func main() {
 
 }
 
-func prettyPrint(S [9][9]int) {
+func prettyPrint(S [9][9]uint8) {
 	for i := 0; i < 9; i++ {
 		fmt.Println(S[i])
 	}
