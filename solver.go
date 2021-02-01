@@ -1,29 +1,13 @@
 package main
 
-import "math"
+import (
+	"math"
+)
 
-//is ok
-func listeInit(S [9][9]uint8) []uint8 {
-	l := []uint8{}
-	for i := 0; i < 9; i++ {
-		for j := 0; j < 9; j++ {
-			if S[i][j] != 0 {
-				// fmt.Println(i, j, S[i][j])
-				l = append(l, uint8(10*i+j))
-			}
-		}
-	}
-
-	return l
-}
-
-// is ok
+// nbPossible returns the number of available numbers for a cell (i, j) in S, the initial sudoku
 func nbPossible(S [9][9]uint8, i uint8, j uint8) uint8 {
-	for _, v := range listeInit(S) {
-
-		if v == (10*i + j) {
-			return 0
-		}
+	if S[i][j] != 0 { // cell already set
+		return 0
 	}
 
 	var c uint8 = 0
@@ -36,7 +20,7 @@ func nbPossible(S [9][9]uint8, i uint8, j uint8) uint8 {
 	return c
 }
 
-//is ok
+// tableauPossibilities returns the 9x9 matrix of the number of possibilities for each cell
 func tableauPossibilities(S [9][9]uint8) [9][9]uint8 {
 	tab := [9][9]uint8{}
 
@@ -82,14 +66,22 @@ func isAvailableInBloc(S [9][9]uint8, i uint8, j uint8, n uint8) bool {
 	return true
 }
 
-//is ok
-func isAvailable(S [9][9]uint8, i uint8, j uint8, n uint8) bool {
+func isAvailableInLine(S [9][9]uint8, i uint8, j uint8, n uint8) bool {
 	for k := uint8(0); k < 9; k++ {
 		if (S[i][k] == n && k != j) || (S[k][j] == n && k != i) {
 			return false
 		}
 	}
-	return isAvailableInBloc(S, i, j, n)
+	return true
+}
+
+//is ok
+func isAvailable(S [9][9]uint8, i uint8, j uint8, n uint8) bool {
+	if isAvailableInLine(S, i, j, n) {
+		return isAvailableInBloc(S, i, j, n)
+	}
+	return false
+
 }
 
 //is ok
@@ -113,22 +105,19 @@ func Solve(S [9][9]uint8) [9][9]uint8 {
 	// Timer
 	defer Track(Runningtime("solve"))
 	tabOrdre := tableauOrdre(S)
-	nToChange := len(tabOrdre)
+	nToChange := uint8(len(tabOrdre))
 	tabMini := S
-	rank := 0
 
-	T := S
-
-	var replacedValue uint8 = 0
+	var rank, i, j, n, replacedValue uint8
 
 	for rank < nToChange {
 
 		// Computing
-		n := tabOrdre[rank]
-		i := uint8(n / 10)
-		j := uint8(n % 10)
+		n = tabOrdre[rank]
+		i = n / 10
+		j = n % 10
 
-		T, replacedValue = assigneValeur(T, i, j, tabMini[i][j]+1)
+		S, replacedValue = assigneValeur(S, i, j, tabMini[i][j]+1)
 
 		if replacedValue != 0 {
 			rank++
@@ -139,5 +128,5 @@ func Solve(S [9][9]uint8) [9][9]uint8 {
 		tabMini[i][j] = replacedValue
 	}
 
-	return T
+	return S
 }
