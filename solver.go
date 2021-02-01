@@ -3,13 +3,13 @@ package main
 import "math"
 
 //is ok
-func listeInit(S [9][9]int) []int {
-	l := []int{}
+func listeInit(S [9][9]uint8) []uint8 {
+	l := []uint8{}
 	for i := 0; i < 9; i++ {
 		for j := 0; j < 9; j++ {
 			if S[i][j] != 0 {
 				// fmt.Println(i, j, S[i][j])
-				l = append(l, int(10*i+j))
+				l = append(l, uint8(10*i+j))
 			}
 		}
 	}
@@ -18,7 +18,7 @@ func listeInit(S [9][9]int) []int {
 }
 
 // is ok
-func nbPossible(S [9][9]int, i int, j int) int {
+func nbPossible(S [9][9]uint8, i uint8, j uint8) uint8 {
 	for _, v := range listeInit(S) {
 
 		if v == (10*i + j) {
@@ -26,8 +26,8 @@ func nbPossible(S [9][9]int, i int, j int) int {
 		}
 	}
 
-	c := 0
-	for n := 1; n <= 9; n++ {
+	var c uint8 = 0
+	for n := uint8(1); n <= 9; n++ {
 		if isAvailable(S, i, j, n) {
 			c++
 		}
@@ -37,25 +37,25 @@ func nbPossible(S [9][9]int, i int, j int) int {
 }
 
 //is ok
-func tableauPossibilities(S [9][9]int) [9][9]int {
-	tab := [9][9]int{}
+func tableauPossibilities(S [9][9]uint8) [9][9]uint8 {
+	tab := [9][9]uint8{}
 
-	for i := 0; i < 9; i++ {
-		for j := 0; j < 9; j++ {
+	for i := uint8(0); i < 9; i++ {
+		for j := uint8(0); j < 9; j++ {
 			tab[i][j] = nbPossible(S, i, j)
 		}
 	}
 	return tab
 }
 
-func tableauOrdre(S [9][9]int) []int {
+func tableauOrdre(S [9][9]uint8) []uint8 {
 	tab := tableauPossibilities(S)
-	liste := []int{}
-	for k := 1; k < 10; k++ {
+	liste := []uint8{}
+	for k := uint8(1); k < 10; k++ {
 		for i := 0; i < 9; i++ {
 			for j := 0; j < 9; j++ {
 				if tab[i][j] == k {
-					liste = append(liste, 10*i+j)
+					liste = append(liste, uint8(10*i+j))
 				}
 			}
 		}
@@ -68,7 +68,7 @@ func tableauOrdre(S [9][9]int) []int {
 ////////////////////////////
 
 // not really block : only checks the 4 squares that can't be reached with col/row checking
-func isAvailableInBloc(S [9][9]int, i int, j int, n int) bool {
+func isAvailableInBloc(S [9][9]uint8, i uint8, j uint8, n uint8) bool {
 	for k := 3 * floor3(i); k < 3*floor3(i)+3; k++ {
 		if k != i {
 			for l := 3 * floor3(j); l < 3*floor3(j)+3; l++ {
@@ -83,8 +83,8 @@ func isAvailableInBloc(S [9][9]int, i int, j int, n int) bool {
 }
 
 //is ok
-func isAvailable(S [9][9]int, i int, j int, n int) bool {
-	for k := 0; k < 9; k++ {
+func isAvailable(S [9][9]uint8, i uint8, j uint8, n uint8) bool {
+	for k := uint8(0); k < 9; k++ {
 		if (S[i][k] == n && k != j) || (S[k][j] == n && k != i) {
 			return false
 		}
@@ -93,7 +93,7 @@ func isAvailable(S [9][9]int, i int, j int, n int) bool {
 }
 
 //is ok
-func assigneValeur(S [9][9]int, i int, j int, mini int) ([9][9]int, int) {
+func assigneValeur(S [9][9]uint8, i uint8, j uint8, mini uint8) ([9][9]uint8, uint8) {
 	for n := mini; n < 10; n++ {
 		if isAvailable(S, i, j, n) {
 			S[i][j] = n
@@ -104,12 +104,12 @@ func assigneValeur(S [9][9]int, i int, j int, mini int) ([9][9]int, int) {
 	return S, 0
 }
 
-func floor3(n int) int {
-	return int(math.Floor(float64(n) / 3.0))
+func floor3(n uint8) uint8 {
+	return uint8(math.Floor(float64(n) / 3.0))
 }
 
 // Solve a sudoku
-func Solve(S [9][9]int) [9][9]int {
+func Solve(S [9][9]uint8) [9][9]uint8 {
 	// Timer
 	defer Track(Runningtime("solve"))
 	tabOrdre := tableauOrdre(S)
@@ -117,14 +117,16 @@ func Solve(S [9][9]int) [9][9]int {
 	tabMini := S
 	rank := 0
 
-	T, replacedValue := S, 0
+	T := S
+
+	var replacedValue uint8 = 0
 
 	for rank < nToChange {
 
 		// Computing
 		n := tabOrdre[rank]
-		i := n / 10
-		j := n % 10
+		i := uint8(n / 10)
+		j := uint8(n % 10)
 
 		T, replacedValue = assigneValeur(T, i, j, tabMini[i][j]+1)
 
