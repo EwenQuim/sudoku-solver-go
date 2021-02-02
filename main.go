@@ -27,16 +27,17 @@ func main() {
 
 	S := FileHandler(*sudokuFile)
 
-	prettyPrint(S)
+	PrettyPrint(S)
 
 	T := Solve(S)
 
 	// Display
-	prettyPrint(T)
+	PrettyPrint(T)
 
 }
 
-func prettyPrint(S [9][9]uint8) {
+// PrettyPrint prints matrix
+func PrettyPrint(S [9][9]uint8) {
 	for i := 0; i < 9; i++ {
 		fmt.Println(S[i])
 	}
