@@ -8,12 +8,7 @@ import (
 )
 
 func main() {
-	// Arguments
-	var sudokuFile = flag.String(
-		"input",
-		"data/sudoku.txt",
-		"Select a sudoku file from your path.",
-	)
+
 	var profiling = flag.Bool(
 		"cpu",
 		false,
@@ -21,18 +16,22 @@ func main() {
 	)
 	flag.Parse()
 
+	flag.Args()
+
 	if *profiling {
 		defer profile.Start().Stop()
 	}
 
-	S := FileHandler(*sudokuFile)
+	// multiple sudokus can be given
+	for _, sudokuFile := range flag.Args() {
+		fmt.Println("\nFile:", sudokuFile)
 
-	PrettyPrint(S)
+		S := FileHandler(sudokuFile)
 
-	T := Solve(S)
+		T := Solve(S)
 
-	// Display
-	PrettyPrint(T)
+		PrettyPrint(T)
+	}
 
 }
 

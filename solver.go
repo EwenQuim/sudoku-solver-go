@@ -1,9 +1,7 @@
 package main
 
 import (
-	"fmt"
 	"math"
-	"strconv"
 )
 
 func digitsPossible(S [9][9]uint8, i uint8, j uint8) []uint8 {
@@ -85,7 +83,7 @@ func floor3(n uint8) uint8 {
 
 // Solve a sudoku
 func Solve(S [9][9]uint8) [9][9]uint8 {
-	defer Track(Runningtime("solve"))
+	defer Track(Runningtime("solving"))
 
 	// Initialise possibilities, order and digit position
 	possibilities := matrixPossibilities(S)
@@ -134,26 +132,4 @@ func Solve(S [9][9]uint8) [9][9]uint8 {
 	}
 
 	return S
-}
-
-// PrettyPrintMatrix prints matrix of possibilities
-func prettyPrintMatrix(S [9][9][]uint8) {
-	for i := 0; i < 9; i++ {
-		for j := 0; j < 9; j++ {
-			fmt.Print(possibilitiesPretty(S[i][j]), " ")
-		}
-		fmt.Println(" ")
-	}
-	fmt.Println("")
-}
-
-func possibilitiesPretty(l []uint8) string {
-	s := ""
-	for _, v := range l {
-		s += strconv.FormatInt(int64(v), 10)
-	}
-	for len(s) < 6 {
-		s += "."
-	}
-	return s
 }
