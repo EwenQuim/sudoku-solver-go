@@ -1,5 +1,7 @@
 package main
 
+import "sudoku-solver/solver"
+
 func main() {
 
 	sudokus := PlugCLI()
@@ -10,7 +12,7 @@ func main() {
 
 		S := FileHandler(sudokuFile)
 
-		T := Solve(S)
+		T := solver.Solve(S)
 
 		PrettyPrint(T)
 	}
