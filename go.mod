@@ -1,4 +1,4 @@
-module sudoku-solver
+module github.com/ewenquim/sudoku-solver-go
 
 go 1.15
 
