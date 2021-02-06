@@ -1,9 +1,6 @@
 package solver
 
-import (
-	"math"
-)
-
+// Board represents the sudoku board. uint8 allows a 2x faster processing (and we always have 0 <= 9 <= 255)
 type Board = [9][9]uint8
 
 func digitsPossible(S Board, i uint8, j uint8) []uint8 {
@@ -53,9 +50,9 @@ func tableauOrder(S Board) []uint8 {
 
 // not really block : only checks the 4 squares that can't be reached with col/row checking
 func isAvailableInBloc(S Board, i uint8, j uint8, n uint8) bool {
-	for k := 3 * floor3(i); k < 3*floor3(i)+3; k++ {
+	for k := floor3(i); k < floor3(i)+3; k++ {
 		if k != i {
-			for l := 3 * floor3(j); l < 3*floor3(j)+3; l++ {
+			for l := floor3(j); l < floor3(j)+3; l++ {
 				if l != j && S[k][l] == n {
 					return false
 				}
@@ -74,16 +71,15 @@ func isAvailableInLine(S Board, i uint8, j uint8, n uint8) bool {
 	return true
 }
 
-//is ok
 func isAvailable(S Board, i uint8, j uint8, n uint8) bool {
 	return isAvailableInLine(S, i, j, n) && isAvailableInBloc(S, i, j, n)
 }
 
 func floor3(n uint8) uint8 {
-	return uint8(math.Floor(float64(n) / 3.0))
+	return 3 * (n / 3)
 }
 
-// Solve a sudoku
+// Solve solves a sudoku and returns the answer
 func Solve(S Board) Board {
 	defer Track(Runningtime("solving"))
 
