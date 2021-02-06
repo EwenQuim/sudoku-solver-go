@@ -5,10 +5,12 @@ import (
 	"log"
 	"os"
 	"strconv"
+
+	"github.com/ewenquim/sudoku-solver-go/solver"
 )
 
 // FileHandler opens a file by its name and returns string
-func FileHandler(fileName string) [9][9]uint8 {
+func FileHandler(fileName string) solver.Board {
 	readFile, err := os.Open(fileName)
 
 	if err != nil {
@@ -25,7 +27,7 @@ func FileHandler(fileName string) [9][9]uint8 {
 
 	readFile.Close()
 
-	S := [9][9]uint8{}
+	S := solver.Board{}
 	for i, eachline := range fileTextLines {
 		for j, character := range eachline {
 			c := string(character)

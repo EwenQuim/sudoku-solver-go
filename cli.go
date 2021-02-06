@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 
+	"github.com/ewenquim/sudoku-solver-go/solver"
 	"github.com/fatih/color"
 	"github.com/pkg/profile"
 )
@@ -39,7 +40,7 @@ func PlugCLI() []string {
 }
 
 // PrettyPrint prints matrix
-func PrettyPrint(S [9][9]uint8) {
+func PrettyPrint(S solver.Board) {
 	for i := 0; i < 9; i++ {
 		fmt.Println(S[i])
 	}

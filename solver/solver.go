@@ -4,7 +4,9 @@ import (
 	"math"
 )
 
-func digitsPossible(S [9][9]uint8, i uint8, j uint8) []uint8 {
+type Board = [9][9]uint8
+
+func digitsPossible(S Board, i uint8, j uint8) []uint8 {
 	if S[i][j] != 0 { // cell already set
 		return []uint8{}
 	}
@@ -19,7 +21,7 @@ func digitsPossible(S [9][9]uint8, i uint8, j uint8) []uint8 {
 	return digits
 }
 
-func matrixPossibilities(S [9][9]uint8) [9][9][]uint8 {
+func matrixPossibilities(S Board) [9][9][]uint8 {
 	tab := [9][9][]uint8{}
 
 	for i := uint8(0); i < 9; i++ {
@@ -30,7 +32,7 @@ func matrixPossibilities(S [9][9]uint8) [9][9][]uint8 {
 	return tab
 }
 
-func tableauOrder(S [9][9]uint8) []uint8 {
+func tableauOrder(S Board) []uint8 {
 	tab := matrixPossibilities(S)
 	liste := []uint8{}
 	for k := int(1); k < 10; k++ {
@@ -50,7 +52,7 @@ func tableauOrder(S [9][9]uint8) []uint8 {
 ////////////////////////////
 
 // not really block : only checks the 4 squares that can't be reached with col/row checking
-func isAvailableInBloc(S [9][9]uint8, i uint8, j uint8, n uint8) bool {
+func isAvailableInBloc(S Board, i uint8, j uint8, n uint8) bool {
 	for k := 3 * floor3(i); k < 3*floor3(i)+3; k++ {
 		if k != i {
 			for l := 3 * floor3(j); l < 3*floor3(j)+3; l++ {
@@ -63,7 +65,7 @@ func isAvailableInBloc(S [9][9]uint8, i uint8, j uint8, n uint8) bool {
 	return true
 }
 
-func isAvailableInLine(S [9][9]uint8, i uint8, j uint8, n uint8) bool {
+func isAvailableInLine(S Board, i uint8, j uint8, n uint8) bool {
 	for k := uint8(0); k < 9; k++ {
 		if (S[i][k] == n && k != j) || (S[k][j] == n && k != i) {
 			return false
@@ -73,7 +75,7 @@ func isAvailableInLine(S [9][9]uint8, i uint8, j uint8, n uint8) bool {
 }
 
 //is ok
-func isAvailable(S [9][9]uint8, i uint8, j uint8, n uint8) bool {
+func isAvailable(S Board, i uint8, j uint8, n uint8) bool {
 	return isAvailableInLine(S, i, j, n) && isAvailableInBloc(S, i, j, n)
 }
 
@@ -82,7 +84,7 @@ func floor3(n uint8) uint8 {
 }
 
 // Solve a sudoku
-func Solve(S [9][9]uint8) [9][9]uint8 {
+func Solve(S Board) Board {
 	defer Track(Runningtime("solving"))
 
 	// Initialise possibilities, order and digit position
