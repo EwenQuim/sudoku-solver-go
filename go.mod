@@ -1,4 +1,4 @@
-module github.com/ewenquim/sudoku-solver-go
+module pkg.amethysts.studio/sudoku-solver-go
 
 go 1.15
 

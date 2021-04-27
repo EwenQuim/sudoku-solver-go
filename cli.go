@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/ewenquim/sudoku-solver-go/solver"
 	"github.com/fatih/color"
 	"github.com/pkg/profile"
+	"pkg.amethysts.studio/sudoku-solver-go/solver"
 )
 
 // PlugCLI handles the Command Line Interface

@@ -1,6 +1,6 @@
 package main
 
-import "github.com/ewenquim/sudoku-solver-go/solver"
+import "pkg.amethysts.studio/sudoku-solver-go/solver"
 
 func main() {
 

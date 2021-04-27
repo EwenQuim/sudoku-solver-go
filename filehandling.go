@@ -6,7 +6,7 @@ import (
 	"os"
 	"strconv"
 
-	"github.com/ewenquim/sudoku-solver-go/solver"
+	"pkg.amethysts.studio/sudoku-solver-go/solver"
 )
 
 // FileHandler opens a file by its name and returns string
