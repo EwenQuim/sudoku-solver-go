@@ -17,7 +17,7 @@ func main() {
 		S := FileHandler(sudokuFile)
 
 		start := time.Now()
-		T := solver.Solve(S)
+		T := solver.Solve(&S)
 		fmt.Println("Solved in", time.Since(start))
 
 		PrettyPrint(T)

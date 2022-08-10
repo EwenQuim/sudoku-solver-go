@@ -28,7 +28,7 @@ func TestSolve(t *testing.T) {
 		{2, 3, 9, 4, 7, 5, 6, 1, 8},
 	}
 
-	solved := Solve(toSolve)
+	solved := Solve(&toSolve)
 
 	if solved != result {
 		t.Errorf("Not solved")
@@ -49,6 +49,6 @@ func BenchmarkSolver(b *testing.B) {
 	}
 
 	for i := 0; i < b.N; i++ {
-		Solve(toSolve)
+		_ = Solve(&toSolve)
 	}
 }
