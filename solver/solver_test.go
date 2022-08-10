@@ -5,7 +5,6 @@ import (
 )
 
 func TestSolve(t *testing.T) {
-
 	toSolve := [9][9]uint8{
 		{0, 0, 0, 0, 0, 0, 1, 0, 0},
 		{3, 0, 1, 7, 9, 0, 0, 0, 0},
@@ -34,5 +33,22 @@ func TestSolve(t *testing.T) {
 	if solved != result {
 		t.Errorf("Not solved")
 	}
+}
 
+func BenchmarkSolver(b *testing.B) {
+	toSolve := [9][9]uint8{
+		{0, 0, 0, 0, 0, 0, 1, 0, 0},
+		{3, 0, 1, 7, 9, 0, 0, 0, 0},
+		{0, 4, 0, 0, 0, 0, 0, 0, 7},
+		{0, 0, 5, 0, 0, 7, 3, 0, 0},
+		{7, 0, 0, 5, 0, 2, 0, 0, 0},
+		{0, 0, 8, 0, 1, 0, 2, 0, 0},
+		{6, 0, 7, 0, 0, 9, 0, 3, 0},
+		{0, 1, 0, 2, 0, 0, 0, 5, 0},
+		{0, 0, 9, 0, 0, 0, 0, 0, 8},
+	}
+
+	for i := 0; i < b.N; i++ {
+		Solve(toSolve)
+	}
 }

@@ -8,7 +8,7 @@ func digitsPossible(S Board, i uint8, j uint8) []uint8 {
 		return []uint8{}
 	}
 
-	var digits = []uint8{}
+	digits := []uint8{}
 	for n := uint8(1); n <= 9; n++ {
 		if isAvailable(S, i, j, n) {
 			digits = append(digits, n)
@@ -81,7 +81,7 @@ func floor3(n uint8) uint8 {
 
 // Solve solves a sudoku and returns the answer
 func Solve(S Board) Board {
-	defer Track(Runningtime("solving"))
+	// defer Track(Runningtime("solving"))
 
 	// Initialise possibilities, order and digit position
 	possibilities := matrixPossibilities(S)

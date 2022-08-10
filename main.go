@@ -1,9 +1,13 @@
 package main
 
-import "pkg.amethysts.studio/sudoku-solver-go/solver"
+import (
+	"fmt"
+	"time"
+
+	"pkg.amethysts.studio/sudoku-solver-go/solver"
+)
 
 func main() {
-
 	sudokus := PlugCLI()
 
 	// multiple sudokus can be given
@@ -12,9 +16,10 @@ func main() {
 
 		S := FileHandler(sudokuFile)
 
+		start := time.Now()
 		T := solver.Solve(S)
+		fmt.Println("Solved in", time.Since(start))
 
 		PrettyPrint(T)
 	}
-
 }
