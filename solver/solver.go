@@ -1,5 +1,7 @@
 package solver
 
+import "sort"
+
 // Board represents the sudoku board. uint8 allows a 2x faster processing (and we always have 0 <= 9 <= 255)
 type Board = [9][9]uint8
 
@@ -34,17 +36,34 @@ type pos struct {
 	j uint8
 }
 
+// tableauOrder returns the order in which the cells must be processed
 func tableauOrder(S *Board) []pos {
+	type posWithScores struct {
+		pos                pos
+		possibilitiesScore int
+	}
 	tab := matrixPossibilities(S)
-	liste := make([]pos, 0, 81)
-	for k := int(1); k < 10; k++ {
-		for i := uint8(0); i < 9; i++ {
-			for j := uint8(0); j < 9; j++ {
-				if len(tab[i][j]) == k {
-					liste = append(liste, pos{i: i, j: j})
-				}
+
+	// compute scores
+	listeScores := make([]posWithScores, 0, 81)
+	for i := uint8(0); i < 9; i++ {
+		for j := uint8(0); j < 9; j++ {
+			if len(tab[i][j]) > 0 {
+				listeScores = append(listeScores, posWithScores{
+					pos:                pos{i: i, j: j},
+					possibilitiesScore: 100 * len(tab[i][j]),
+				})
 			}
 		}
+	}
+
+	// sort by score
+	sort.SliceStable(listeScores, func(a, b int) bool {
+		return listeScores[a].possibilitiesScore < listeScores[b].possibilitiesScore
+	})
+	liste := make([]pos, 0, len(listeScores))
+	for _, p := range listeScores {
+		liste = append(liste, p.pos)
 	}
 	return liste
 }
