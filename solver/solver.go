@@ -39,8 +39,8 @@ type pos struct {
 // tableauOrder returns the order in which the cells must be processed
 func tableauOrder(S *Board) []pos {
 	type posWithScores struct {
-		pos                pos
-		possibilitiesScore int
+		pos   pos
+		score int // as minimal as possible
 	}
 	tab := matrixPossibilities(S)
 
@@ -50,8 +50,8 @@ func tableauOrder(S *Board) []pos {
 		for j := uint8(0); j < 9; j++ {
 			if len(tab[i][j]) > 0 {
 				listeScores = append(listeScores, posWithScores{
-					pos:                pos{i: i, j: j},
-					possibilitiesScore: 100 * len(tab[i][j]),
+					pos:   pos{i: i, j: j},
+					score: 100*len(tab[i][j]) - alignedNeighbors(S, i, j) - squareNeighbors(S, i, j),
 				})
 			}
 		}
@@ -59,7 +59,7 @@ func tableauOrder(S *Board) []pos {
 
 	// sort by score
 	sort.SliceStable(listeScores, func(a, b int) bool {
-		return listeScores[a].possibilitiesScore < listeScores[b].possibilitiesScore
+		return listeScores[a].score < listeScores[b].score
 	})
 	liste := make([]pos, 0, len(listeScores))
 	for _, p := range listeScores {

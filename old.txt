@@ -2,20 +2,20 @@
 goos: darwin
 goarch: arm64
 pkg: pkg.amethysts.studio/sudoku-solver-go/solver
-BenchmarkSolver-8             	    2151	    552422 ns/op	    2504 B/op	     117 allocs/op
-BenchmarkSolver-8             	    2144	    551194 ns/op	    2504 B/op	     117 allocs/op
-BenchmarkSolver-8             	    2148	    558123 ns/op	    2504 B/op	     117 allocs/op
-BenchmarkSolver-8             	    2145	    552423 ns/op	    2504 B/op	     117 allocs/op
-BenchmarkSolver-8             	    2122	    552151 ns/op	    2504 B/op	     117 allocs/op
-BenchmarkSolverHard-8         	       3	 445440861 ns/op	    2600 B/op	     119 allocs/op
-BenchmarkSolverHard-8         	       3	 437372375 ns/op	    2600 B/op	     119 allocs/op
-BenchmarkSolverHard-8         	       3	 439076556 ns/op	    2600 B/op	     119 allocs/op
-BenchmarkSolverHard-8         	       3	 436080583 ns/op	    2600 B/op	     119 allocs/op
-BenchmarkSolverHard-8         	       3	 437482625 ns/op	    2600 B/op	     119 allocs/op
-BenchmarkSolverImpossible-8   	      10	 106655612 ns/op	    2603 B/op	     125 allocs/op
-BenchmarkSolverImpossible-8   	      10	 106873988 ns/op	    2603 B/op	     125 allocs/op
-BenchmarkSolverImpossible-8   	      10	 107115808 ns/op	    2603 B/op	     125 allocs/op
-BenchmarkSolverImpossible-8   	      10	 106831171 ns/op	    2603 B/op	     125 allocs/op
-BenchmarkSolverImpossible-8   	      10	 106585008 ns/op	    2603 B/op	     125 allocs/op
+BenchmarkSolver-8             	    6229	    194409 ns/op	    2504 B/op	     117 allocs/op
+BenchmarkSolver-8             	    6019	    191498 ns/op	    2504 B/op	     117 allocs/op
+BenchmarkSolver-8             	    6115	    192037 ns/op	    2504 B/op	     117 allocs/op
+BenchmarkSolver-8             	    5994	    192287 ns/op	    2504 B/op	     117 allocs/op
+BenchmarkSolver-8             	    6114	    191662 ns/op	    2504 B/op	     117 allocs/op
+BenchmarkSolverHard-8         	      49	  23452361 ns/op	    2539 B/op	     119 allocs/op
+BenchmarkSolverHard-8         	      49	  23597418 ns/op	    2539 B/op	     119 allocs/op
+BenchmarkSolverHard-8         	      49	  23743779 ns/op	    2539 B/op	     119 allocs/op
+BenchmarkSolverHard-8         	      49	  23726253 ns/op	    2539 B/op	     119 allocs/op
+BenchmarkSolverHard-8         	      50	  23876730 ns/op	    2539 B/op	     119 allocs/op
+BenchmarkSolverImpossible-8   	       3	 468590389 ns/op	    2648 B/op	     125 allocs/op
+BenchmarkSolverImpossible-8   	       3	 465390667 ns/op	    2648 B/op	     125 allocs/op
+BenchmarkSolverImpossible-8   	       3	 466019028 ns/op	    2648 B/op	     125 allocs/op
+BenchmarkSolverImpossible-8   	       3	 464543500 ns/op	    2648 B/op	     125 allocs/op
+BenchmarkSolverImpossible-8   	       3	 465284570 ns/op	    2648 B/op	     125 allocs/op
 PASS
-ok  	pkg.amethysts.studio/sudoku-solver-go/solver	26.552s
+ok  	pkg.amethysts.studio/sudoku-solver-go/solver	26.992s
