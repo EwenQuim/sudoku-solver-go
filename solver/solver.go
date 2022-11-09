@@ -29,14 +29,19 @@ func matrixPossibilities(S *Board) [9][9][]uint8 {
 	return tab
 }
 
-func tableauOrder(S *Board) []uint8 {
+type pos struct {
+	i uint8
+	j uint8
+}
+
+func tableauOrder(S *Board) []pos {
 	tab := matrixPossibilities(S)
-	liste := []uint8{}
+	liste := make([]pos, 0, 81)
 	for k := int(1); k < 10; k++ {
-		for i := 0; i < 9; i++ {
-			for j := 0; j < 9; j++ {
+		for i := uint8(0); i < 9; i++ {
+			for j := uint8(0); j < 9; j++ {
 				if len(tab[i][j]) == k {
-					liste = append(liste, uint8(10*i+j))
+					liste = append(liste, pos{i: i, j: j})
 				}
 			}
 		}
@@ -51,11 +56,12 @@ func tableauOrder(S *Board) []uint8 {
 // not really block : only checks the 4 squares that can't be reached with col/row checking
 func isAvailableInBloc(S *Board, i uint8, j uint8, n uint8) bool {
 	for k := floor3(i); k < floor3(i)+3; k++ {
-		if k != i {
-			for l := floor3(j); l < floor3(j)+3; l++ {
-				if l != j && S[k][l] == n {
-					return false
-				}
+		if k == i {
+			continue
+		}
+		for l := floor3(j); l < floor3(j)+3; l++ {
+			if l != j && S[k][l] == n {
+				return false
 			}
 		}
 	}
@@ -79,8 +85,14 @@ func floor3(n uint8) uint8 {
 	return 3 * (n / 3)
 }
 
+type stats struct {
+	Tries     int
+	GoingBack int
+}
+
 // Solve solves a sudoku and returns the answer
-func Solve(S *Board) Board {
+func Solve(Si Board) (Board, stats) {
+	S := &Si
 	// Initialise possibilities, order and digit position
 	possibilities := matrixPossibilities(S)
 	sliceOrder := tableauOrder(S)
@@ -89,13 +101,15 @@ func Solve(S *Board) Board {
 
 	// variables
 	var rank uint8
+	var stats stats
 
 	for rank < maxDigitToFind {
+		stats.Tries++
 
 		// Which cell must be processed ?
 		n := sliceOrder[rank]
-		i := n / 10
-		j := n % 10
+		i := n.i
+		j := n.j
 
 		if indexOfCurrentDigitFor[i][j] < len(possibilities[i][j]) {
 			// There is a digit in the list of possibilities to put here
@@ -118,14 +132,15 @@ func Solve(S *Board) Board {
 
 			// then go back to previous cell
 			rank--
+			stats.GoingBack++
 			n = sliceOrder[rank]
-			i = n / 10
-			j = n % 10
+			i = n.i
+			j = n.j
 			// previous digit was available but we found it wasn't okay, so increase it
 			indexOfCurrentDigitFor[i][j]++
 		}
 
 	}
 
-	return *S
+	return *S, stats
 }
