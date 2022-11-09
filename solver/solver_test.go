@@ -75,6 +75,26 @@ func BenchmarkSolverHard(b *testing.B) {
 	require.NotEqual(b, solved, toSolve)
 }
 
+func BenchmarkSolverImpossible(b *testing.B) {
+	toSolve := [9][9]uint8{
+		{8, 0, 0, 0, 0, 0, 0, 0, 0},
+		{0, 0, 3, 6, 0, 0, 0, 0, 0},
+		{0, 7, 0, 0, 9, 0, 2, 0, 0},
+		{0, 5, 0, 0, 0, 7, 0, 0, 0},
+		{0, 0, 0, 0, 4, 5, 7, 0, 0},
+		{0, 0, 0, 1, 0, 0, 0, 3, 0},
+		{0, 0, 1, 0, 0, 0, 0, 6, 8},
+		{0, 0, 8, 5, 0, 0, 0, 1, 0},
+		{0, 9, 0, 0, 0, 0, 4, 0, 0},
+	}
+
+	var solved [9][9]uint8
+	for i := 0; i < b.N; i++ {
+		solved, _ = Solve(toSolve)
+	}
+	require.NotEqual(b, solved, toSolve)
+}
+
 func begin(Si Board) ([9][9][]uint8, []pos) {
 	S := &Si
 	// Initialise possibilities, order and digit position
